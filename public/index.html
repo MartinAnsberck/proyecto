@@ -104,11 +104,13 @@
                 <td>${description}</td>
                 <td>${cantidad}</td>
                 <td><button class="btnEditar btn btn-secondary" data-toggle="tooltip" title="Editar">${iconoEditar}</button><button class="btnBorrar btn btn-danger" data-toggle="tooltip" title="Borrar">${iconoBorrar}</button></td>
-                ` } //Programacion de botones $('#btnNuevo').click(function(){ $('#id').val(''); $('#codigo').val(''); $('#descripcion').val(''); $('#cantidad').val(''); $('modalAltaEdicion').modal('show'); }); $('#tablaProductos').on('click', 'btnEditar', function(){
-                let id = $(this).closest('tr').attr('id'); let codigo = $(this).closest('tr').find('td:eq(0)').text(); let descripcion = $(this).closest('tr').find('td:eq(1)').text(); let cantidad = $(this).closest('tr').find('td:eq(2)').text(); $('#id').val(id);
-                $('#codigo').val(codigo); $('#descripcion').val(descripcion); $('#cantidad').val(cantidad); $('modalAltaEdicion').modal('show'); }); $('#tablaProductos').on('click', '.btnBorrar', function(){ Swal.fire({ title: '¿Seguro que quiere borrar
-                el producto?', text: "Esta operacion no se puede cambiar!", icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', cancelButtonColor: '#3085d6', confirmButtonText: 'Borrar' }).then((result) => { if (result.value) { let id
-                = $(this).closest('tr').attr('id'); //agarramos el atributo ID de la fila db.ref(`productos/${id}`).remove() //eliminamos el prod de firebase Swal.fire('Eliminado!', 'El producto se elimino.','success') } }) });
+                ` } //CHILD_ADDED coleccionProductos.on('child_added', data =>{ let tr = document.createElement('tr') tr.id = data.key tr.innerHTML = mostrarProductos(data.val()) document.getElementById('bodyProductos').appendChild(tr) }); //CHILD_CHANGED coleccionProductos.on('child_changed',
+                data =>{ let nodoEditado = document.getElementById(data.key) nodoEditado.innerHTML = mostrarProductos(data.val()) }); //CHILD_REMOVED coleccionProductos.on('child_removed', data =>{ let nodoEditado = document.getElementById(data.key) document.getElementById('bodyProductos').removeChild(nodoEditado)
+                }); //Programacion de botones $('#btnNuevo').click(function(){ $('#id').val(''); $('#codigo').val(''); $('#descripcion').val(''); $('#cantidad').val(''); $('modalAltaEdicion').modal('show'); }); $('#tablaProductos').on('click', 'btnEditar',
+                function(){ let id = $(this).closest('tr').attr('id'); let codigo = $(this).closest('tr').find('td:eq(0)').text(); let descripcion = $(this).closest('tr').find('td:eq(1)').text(); let cantidad = $(this).closest('tr').find('td:eq(2)').text();
+                $('#id').val(id); $('#codigo').val(codigo); $('#descripcion').val(descripcion); $('#cantidad').val(cantidad); $('modalAltaEdicion').modal('show'); }); $('#tablaProductos').on('click', '.btnBorrar', function(){ Swal.fire({ title: '¿Seguro
+                que quiere borrar el producto?', text: "Esta operacion no se puede cambiar!", icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', cancelButtonColor: '#3085d6', confirmButtonText: 'Borrar' }).then((result) => { if (result.value)
+                { let id = $(this).closest('tr').attr('id'); //agarramos el atributo ID de la fila db.ref(`productos/${id}`).remove() //eliminamos el prod de firebase Swal.fire('Eliminado!', 'El producto se elimino.','success') } }) });
 
             </script>
 
